@@ -1,82 +1,95 @@
-# Curricular
+# Project Name
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+A full-stack application built with Nx monorepo, featuring a Express.js backend and React frontend.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+## Prerequisites
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+Before you begin, ensure you have the following installed:
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+- Docker and Docker Compose
+- [Nx CLI](https://nx.dev/getting-started/nx-setup) (optional, but recommended)
 
-## Finish your remote caching setup
+## Getting Started
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/KfJXm03bDT)
+### Installation
 
-
-## Run tasks
-
-To run the dev server for your app, use:
-
-```sh
-npx nx serve backend
+1. Clone the repository:
+```bash
+git clone [your-repository-url]
+cd curricular
 ```
 
-To create a production bundle:
-
-```sh
-npx nx build backend
+2. Install dependencies:
+```bash
+npm install
 ```
 
-To see all available targets to run for a project, run:
+### Running the Application
 
-```sh
-npx nx show project backend
+You can start all services (database, backend, and frontend) with a single command:
+
+```bash
+npm start
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+This command will:
+1. Start the database container using Docker
+2. Run database migrations and seed initial data
+3. Start both backend and frontend development servers
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Individual Services
 
-## Add new projects
+If you need to run services individually:
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
+```bash
+# Start database
+npm run db:up
 
-Use the plugin's generator to create new projects.
+# Seed database
+npm run prisma:seed
 
-To generate a new application, use:
+# Start backend development server
+npm run backend:dev
 
-```sh
-npx nx g @nx/node:app demo
+# Start frontend development server
+npm run frontend:dev
 ```
 
-To generate a new library, use:
+## Project Structure
 
-```sh
-npx nx g @nx/node:lib mylib
+```
+├── apps/
+│   ├── backend/    # Backend application
+│   └── frontend/   # Frontend application
+├── libs/          # Shared libraries
+├── prisma/        # Database schema and migrations
+└── docker-compose.yml
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+## Development
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Available Commands
 
+- `npm start` - Start all services
+- `npm run db:up` - Start database container
+- `npm run prisma:seed` - Seed the database
+- `npm run backend:dev` - Start backend in development mode
+- `npm run frontend:dev` - Start frontend in development mode
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Database
 
-## Install Nx Console
+The project uses Postgres managed through Docker. Database migrations are handled using Prisma.
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+### Database Commands
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```bash
+# Generate Prisma client
+npx prisma generate
 
-## Useful links
+# Run migrations
+npx prisma migrate dev
 
-Learn more:
-
-- [Learn more about this workspace setup](https://nx.dev/nx-api/node?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+# Reset database
+npx prisma migrate reset
+```

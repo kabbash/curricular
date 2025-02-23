@@ -1,14 +1,15 @@
-# Project Name
+# Curricular
 
-A full-stack application built with Nx monorepo, featuring a Express.js backend and React frontend.
+A full-stack application built with Nx monorepo, featuring Express.js backend and React frontend.
 
 ## Prerequisites
 
 Before you begin, ensure you have the following installed:
 - Node.js (v18 or higher)
 - npm (v9 or higher)
-- Docker and Docker Compose
-- [Nx CLI](https://nx.dev/getting-started/nx-setup) (optional, but recommended)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) and [Docker Compose](https://docs.docker.com/compose/install/)
+  - For Windows & Mac: Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+  - For Linux: Install [Docker Engine](https://docs.docker.com/engine/install/) and [Docker Compose](https://docs.docker.com/compose/install/linux/)
 
 ## Getting Started
 
@@ -16,7 +17,7 @@ Before you begin, ensure you have the following installed:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/kabbash/curricular.git
+git clone https://github.com/[your-username]/curricular.git
 cd curricular
 ```
 
@@ -27,28 +28,31 @@ npm install
 
 ### Running the Application
 
-You can start all services (database, backend, and frontend) with a single command:
+There are two main ways to start the application:
 
+#### 1. Starting All Services (First Time Setup)
+First, start the database and set it up:
+```bash
+npm run db:up
+```
+This command will:
+- Start the database container using Docker
+- Push the Prisma schema to the database
+- Seed the database with initial data
+
+Then, start both frontend and backend services:
 ```bash
 npm start
 ```
+This will concurrently run both the frontend and backend development servers.
+frontend app url : http://localhost:4200
+backend app url : http://localhost:3000
 
-This command will:
-1. Start the database container using Docker
-2. Run database migrations and seed initial data
-3. Start both backend and frontend development servers
-
-### Individual Services
+#### 2. Individual Services
 
 If you need to run services individually:
 
 ```bash
-# Start database
-npm run db:up
-
-# Seed database
-npm run prisma:seed
-
 # Start backend development server
 npm run backend:dev
 
@@ -60,8 +64,8 @@ npm run frontend:dev
 
 ```
 ├── apps/
-│   ├── backend/    # Backend application
-│   └── frontend/   # Frontend application
+│   ├── backend/    # Backend application (Express.js)
+│   └── frontend/   # Frontend application (React)
 ├── libs/          # Shared libraries
 ├── prisma/        # Database schema and migrations
 └── docker-compose.yml
@@ -69,17 +73,31 @@ npm run frontend:dev
 
 ## Development
 
-### Available Commands
+### Available Scripts
 
-- `npm start` - Start all services
-- `npm run db:up` - Start database container
+- `npm run db:up` - Start database container, push schema, and seed data
 - `npm run prisma:seed` - Seed the database
-- `npm run backend:dev` - Start backend in development mode
-- `npm run frontend:dev` - Start frontend in development mode
+- `npm run backend:dev` - Start backend in development mode (using Nx)
+- `npm run frontend:dev` - Start frontend in development mode (using Nx)
+- `npm start` - Run frontend and backend concurrently
+
+### Working with Nx
+
+This project uses Nx for managing the monorepo. Some useful Nx commands:
+
+```bash
+# Run tests
+nx test backend
+nx test frontend
+
+# Build applications
+nx build backend
+nx build frontend
+```
 
 ## Database
 
-The project uses Postgres managed through Docker. Database migrations are handled using Prisma.
+The project uses Prisma as the ORM with a PostgreSQL database managed through Docker.
 
 ### Database Commands
 
@@ -87,9 +105,19 @@ The project uses Postgres managed through Docker. Database migrations are handle
 # Generate Prisma client
 npx prisma generate
 
-# Run migrations
-npx prisma migrate dev
+# Push schema changes to database
+npx prisma db push
 
-# Reset database
-npx prisma migrate reset
+# Run database seed
+npx prisma db seed
 ```
+
+## Technologies
+
+- **Frontend**: React with Vite
+- **Backend**: Express.js
+- **Database**: PostgreSQL with Prisma ORM
+- **Testing**: Jest
+- **Styling**: TailwindCSS
+- **Monorepo Management**: Nx
+- **Development Tools**: ESLint, Prettier, TypeScript
